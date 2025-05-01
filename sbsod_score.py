@@ -1,10 +1,8 @@
 import pandas as pd
 import re
 
-# Load data
 df = pd.read_csv("data/VR_Locomotion_Pre_During_Post-experiment Survey_April 30, 2025_20.26.csv", skiprows=2)
 
-# SBSOD mapping with ImportId format
 sbsod_mapping = {
     1: '{"ImportId":"QID1718035752_1"}',
     2: '{"ImportId":"QID1718035752_2"}',
@@ -26,16 +24,10 @@ sbsod_mapping = {
 reverse_scored = {1, 3, 4, 5, 7, 9, 14}
 
 def extract_score(val):
-    """
-    Extracts the leading integer from a value that may be
-    a number or a string like "1 (strongly agree)".
-    Returns float or None if extraction fails.
-    """
     if pd.isnull(val):
         return None
     if isinstance(val, (int, float)):
         return float(val)
-    # If it's a string, extract the first number
     match = re.match(r"^\s*(\d+)", str(val))
     if match:
         return float(match.group(1))
